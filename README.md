@@ -110,12 +110,13 @@ AI-driven-work/
 ├── README.md
 ├── docs/
 │   ├── jira-guidelines.md           # Jira 운영 규칙 (전 직원용)
-│   ├── claude-code-jira-rules.md    # Claude Code - Jira 작업 규칙 (AI Agent용)
 │   ├── confluence-guidelines.md     # Confluence 운영 규칙
 │   ├── claude-code-guide.md         # Claude Code 사용법
 │   ├── mcp-server-selection-guide.md # MCP Server 선택 가이드
 │   └── workflow-examples.md         # 업무 플로우 예시
 ├── .claude/
+│   ├── instructions/
+│   │   └── jira-rules.md            # Claude Code - Jira 작업 규칙 (AI Agent용, 자동 적용)
 │   └── commands/
 │       ├── daily-standup.md
 │       ├── weekly-report.md
@@ -191,7 +192,7 @@ claude
 ### 다음 단계
 
 1. **Jira 운영 규칙 숙지**: `docs/jira-guidelines.md`
-2. **Claude Code - Jira 작업 규칙 확인**: `docs/claude-code-jira-rules.md` (AI Agent 동작 이해)
+2. **Claude Code - Jira 작업 규칙 확인**: `.claude/instructions/jira-rules.md` (AI Agent 동작 이해)
 3. **Confluence 운영 규칙 숙지**: `docs/confluence-guidelines.md`
 4. **업무 플로우 예시**: `docs/workflow-examples.md`
 5. **일일 업무 시작**: `/daily-standup` 실행
