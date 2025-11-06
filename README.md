@@ -72,6 +72,13 @@ AI Agent를 통해 Jira/Confluence 정보를 자동으로 수집하고 분석하
   - 자율적으로 담당자 지정하여 업무 선택
 - **주간 업무 공유**: 주간 보고서 작성 및 기록 방법
 
+#### Claude Code - Jira 작업 규칙
+- **AI Agent 전용 규칙**: Claude Code가 Jira 작업을 처리할 때 따라야 할 지침
+- **이슈 타입 판단 기준**: Epic, Story, Task, Sub-Task 자동 구분 로직
+- **담당자 지정 원칙**: Epic/Story는 책임자, Task/Sub-Task는 실행 담당자
+- **자동화 작업 가이드**: /daily-standup, /weekly-report, /assign-me 처리 규칙
+- **커뮤니케이션 원칙**: 명확하고 일관된 응답 방식
+
 #### Claude Code 가이드
 - **기본 개념**: rules, instructions, skill, slash command
 - **공통 Slash Commands**:
@@ -102,10 +109,12 @@ AI Agent를 통해 Jira/Confluence 정보를 자동으로 수집하고 분석하
 AI-driven-work/
 ├── README.md
 ├── docs/
-│   ├── jira-guidelines.md        # Jira 운영 규칙
-│   ├── confluence-guidelines.md  # Confluence 운영 규칙
-│   ├── claude-code-guide.md      # Claude Code 사용법
-│   └── workflow-examples.md      # 업무 플로우 예시
+│   ├── jira-guidelines.md           # Jira 운영 규칙 (전 직원용)
+│   ├── claude-code-jira-rules.md    # Claude Code - Jira 작업 규칙 (AI Agent용)
+│   ├── confluence-guidelines.md     # Confluence 운영 규칙
+│   ├── claude-code-guide.md         # Claude Code 사용법
+│   ├── mcp-server-selection-guide.md # MCP Server 선택 가이드
+│   └── workflow-examples.md         # 업무 플로우 예시
 ├── .claude/
 │   └── commands/
 │       ├── daily-standup.md
@@ -114,9 +123,9 @@ AI-driven-work/
 │       └── save-slack-thread.md
 ├── config/
 │   ├── mcp-atlassian-config.json
-│   └── README.md                 # 설정 방법 설명
+│   └── README.md                    # 설정 방법 설명
 └── scripts/
-    └── setup.sh                  # 환경 설정 스크립트
+    └── setup.sh                     # 환경 설정 스크립트
 ```
 
 ## 시작하기
@@ -182,9 +191,10 @@ claude
 ### 다음 단계
 
 1. **Jira 운영 규칙 숙지**: `docs/jira-guidelines.md`
-2. **Confluence 운영 규칙 숙지**: `docs/confluence-guidelines.md`
-3. **업무 플로우 예시**: `docs/workflow-examples.md`
-4. **일일 업무 시작**: `/daily-standup` 실행
+2. **Claude Code - Jira 작업 규칙 확인**: `docs/claude-code-jira-rules.md` (AI Agent 동작 이해)
+3. **Confluence 운영 규칙 숙지**: `docs/confluence-guidelines.md`
+4. **업무 플로우 예시**: `docs/workflow-examples.md`
+5. **일일 업무 시작**: `/daily-standup` 실행
 
 ## 기여 방법
 
