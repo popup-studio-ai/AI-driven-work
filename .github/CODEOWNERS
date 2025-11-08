@@ -1,0 +1,14 @@
+# CODEOWNERS
+# AI-driven-work 프로젝트의 코드 소유자 정의
+#
+# 이 파일은 PR 생성 시 자동으로 리뷰어를 지정합니다.
+# 자세한 내용: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# 모든 파일의 기본 소유자
+* @popup-kay
+
+# 특정 디렉토리 소유자
+/scripts/ @popup-kay
+/.claude/ @popup-kay
+/docs/ @popup-kay
+/.github/ @popup-kay
