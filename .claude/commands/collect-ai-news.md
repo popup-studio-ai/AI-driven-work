@@ -189,7 +189,7 @@ AI 관련 최신 뉴스와 정보를 웹에서 검색하여 Confluence에 자동
 
 5. **Confluence 저장**:
    - Space: "POPUPSTUDI" (AI 정보 모음 폴더)
-   - Parent Page ID: 917578
+   - Parent Page ID: 2457624
    - 제목: `[YYYY-MM-DD] 주간 AI 뉴스 모음`
 
 ### 5. 결과 출력
