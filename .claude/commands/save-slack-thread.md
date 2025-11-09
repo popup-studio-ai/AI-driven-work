@@ -13,9 +13,12 @@ Slack의 중요한 스레드를 Confluence 페이지로 저장합니다.
 
 1. 사용자에게 다음을 요청:
    - Slack 스레드 내용 (복사해서 붙여넣기)
-   - Confluence에 저장할 Space 선택
    - 페이지 제목 (자동 생성 제안 가능)
    - 관련 Jira 이슈 키 (선택사항)
+
+**저장 위치**: 자동으로 "AI 정보 모음 > From Slack" 폴더에 저장
+   - Space: "POPUPSTUDI"
+   - Parent Page ID: 917578 (From Slack 폴더)
 
 2. Slack 스레드 분석:
    - 대화 참여자 식별
@@ -63,7 +66,7 @@ Slack의 중요한 스레드를 Confluence 페이지로 저장합니다.
 
 4. mcp-atlassian을 사용하여:
    - Confluence에 페이지 생성
-   - 적절한 Space에 저장
+   - Space: "POPUPSTUDI", Parent ID: 917578 (From Slack 폴더)에 저장
    - 관련 Jira 이슈와 링크 (제공된 경우)
 
 5. 결과 출력:
@@ -71,7 +74,7 @@ Slack의 중요한 스레드를 Confluence 페이지로 저장합니다.
 ✅ Slack 스레드가 Confluence에 저장되었습니다!
 
 **제목**: [페이지 제목]
-**Space**: [Space 이름]
+**저장 위치**: AI 정보 모음 > From Slack
 **링크**: [Confluence 페이지 URL]
 
 💡 다음 단계:
