@@ -250,19 +250,23 @@ else
 fi
 echo ""
 
-# 각 command 파일 복사
-COMMAND_FILES=(
-    "daily-standup.md"
-    "weekly-report.md"
-    "assign-me.md"
-    "save-slack-thread.md"
-)
+# 각 command 파일 복사 (소스 디렉토리의 모든 .md 파일 자동 감지)
+echo -e "${CYAN}소스 디렉토리에서 command 파일 검색 중...${NC}"
+echo ""
 
-for cmd_file in "${COMMAND_FILES[@]}"; do
-    source_file="$SOURCE_COMMANDS_DIR/$cmd_file"
+COMMAND_COUNT=0
+while IFS= read -r -d '' source_file; do
+    cmd_file="$(basename "$source_file")"
     target_file="$TARGET_COMMANDS_DIR/$cmd_file"
     copy_file_with_conflict_handling "$source_file" "$target_file" "command"
-done
+    ((COMMAND_COUNT++))
+done < <(find "$SOURCE_COMMANDS_DIR" -maxdepth 1 -type f -name "*.md" -print0 2>/dev/null)
+
+if [ $COMMAND_COUNT -eq 0 ]; then
+    echo -e "${YELLOW}⚠️  소스 디렉토리에 command 파일이 없습니다.${NC}"
+else
+    echo -e "${GREEN}✅ 총 ${COMMAND_COUNT}개의 command 파일 처리 완료${NC}"
+fi
 
 echo ""
 
