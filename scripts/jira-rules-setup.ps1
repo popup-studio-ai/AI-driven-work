@@ -230,18 +230,21 @@ if ($DryRun) {
 }
 Write-Host ""
 
-# 각 command 파일 복사
-$commandFiles = @(
-    "daily-standup.md",
-    "weekly-report.md",
-    "assign-me.md",
-    "save-slack-thread.md"
-)
+# 각 command 파일 복사 (소스 디렉토리의 모든 .md 파일 자동 감지)
+Write-ColorOutput "소스 디렉토리에서 command 파일 검색 중..." "Cyan"
+Write-Host ""
 
-foreach ($cmdFile in $commandFiles) {
-    $sourceFile = Join-Path $SOURCE_COMMANDS_DIR $cmdFile
-    $targetFile = Join-Path $TARGET_COMMANDS_DIR $cmdFile
-    Copy-FileWithConflictHandling $sourceFile $targetFile | Out-Null
+$commandFiles = Get-ChildItem -Path $SOURCE_COMMANDS_DIR -Filter "*.md" -File -ErrorAction SilentlyContinue
+
+if ($commandFiles.Count -eq 0) {
+    Write-ColorOutput "⚠️  소스 디렉토리에 command 파일이 없습니다." "Yellow"
+} else {
+    foreach ($cmdFile in $commandFiles) {
+        $sourceFile = $cmdFile.FullName
+        $targetFile = Join-Path $TARGET_COMMANDS_DIR $cmdFile.Name
+        Copy-FileWithConflictHandling $sourceFile $targetFile | Out-Null
+    }
+    Write-ColorOutput "✅ 총 $($commandFiles.Count)개의 command 파일 처리 완료" "Green"
 }
 
 Write-Host ""
