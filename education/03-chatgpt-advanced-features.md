@@ -48,6 +48,53 @@
 | Canvas | 구글 독스 + AI | 문서 직접 편집 |
 | Projects | 프로젝트 폴더 | 관련 작업 한 곳에 |
 
+### ChatGPT 고급 기능 관계도
+
+아래 다이어그램은 ChatGPT 고급 기능들이 어떻게 상호 연결되어 작동하는지 보여줍니다.
+
+```mermaid
+flowchart TB
+    subgraph 기본설정["기본 설정 레이어"]
+        CI[Custom Instructions]
+        MEM[Memory]
+    end
+
+    subgraph 작업공간["작업 공간"]
+        PROJ[Projects]
+    end
+
+    subgraph 생산도구["생산성 도구"]
+        GPT[Custom GPTs]
+        CODE[Code Interpreter]
+        CANVAS[Canvas]
+    end
+
+    subgraph 출력["결과물"]
+        DOC[문서/보고서]
+        CHART[차트/시각화]
+        AUTO[자동화 작업]
+    end
+
+    CI --> GPT
+    CI --> PROJ
+    MEM --> PROJ
+    MEM --> GPT
+
+    PROJ --> GPT
+    PROJ --> CODE
+    PROJ --> CANVAS
+
+    GPT --> AUTO
+    CODE --> CHART
+    CODE --> DOC
+    CANVAS --> DOC
+
+    style 기본설정 fill:#e1f5fe
+    style 작업공간 fill:#f3e5f5
+    style 생산도구 fill:#e8f5e9
+    style 출력 fill:#fff3e0
+```
+
 ---
 
 ## 1. Custom Instructions - AI에게 나를 기억시키기
@@ -64,6 +111,28 @@
 4. **저장** 클릭
 
 **단축키**: `Ctrl + Shift + I`
+
+### Custom Instructions 설정 흐름
+
+아래 다이어그램은 Custom Instructions를 설정하는 사용자 여정을 보여줍니다.
+
+```mermaid
+flowchart LR
+    A[ChatGPT 접속] --> B[좌측 하단<br/>사용자 이름 클릭]
+    B --> C[ChatGPT<br/>맞춤 설정 선택]
+    C --> D{두 가지 필드 입력}
+
+    D --> E[첫 번째 필드<br/>나에 대한 정보]
+    D --> F[두 번째 필드<br/>응답 방식]
+
+    E --> G[저장]
+    F --> G
+
+    G --> H[모든 대화에<br/>자동 적용]
+
+    style A fill:#e3f2fd
+    style H fill:#c8e6c9
+```
 
 ### 두 가지 입력 필드
 
@@ -197,6 +266,38 @@ Memory에 저장:
 └── 변화하는 정보
 ```
 
+### Custom Instructions와 Memory 활용 전략도
+
+아래 다이어그램은 Custom Instructions와 Memory를 언제, 어떻게 활용하는지 보여줍니다.
+
+```mermaid
+flowchart TB
+    subgraph CI["Custom Instructions (정적)"]
+        CI1[기본 정보<br/>직업, 역할, 경력]
+        CI2[응답 스타일<br/>형식, 길이, 언어]
+        CI3[고정 제약사항]
+    end
+
+    subgraph MEM["Memory (동적)"]
+        MEM1[현재 프로젝트 정보]
+        MEM2[최근 결정사항]
+        MEM3[진행 상황 업데이트]
+        MEM4[변화하는 정보]
+    end
+
+    USER[사용자] --> |한 번 설정| CI
+    USER --> |대화 중 축적| MEM
+
+    CI --> CHAT[ChatGPT 대화]
+    MEM --> CHAT
+
+    CHAT --> |맥락 이해| RESPONSE[최적화된 응답]
+
+    style CI fill:#e1f5fe
+    style MEM fill:#f3e5f5
+    style RESPONSE fill:#c8e6c9
+```
+
 ---
 
 ## 3. Custom GPTs - 나만의 AI 비서 만들기
@@ -226,6 +327,35 @@ Memory에 저장:
 
 1. **https://chatgpt.com/create** 접속
 2. 또는: 좌측 사이드바 "Explore GPTs" > "Create"
+
+### Custom GPT 생성 프로세스
+
+아래 다이어그램은 Custom GPT를 생성하는 전체 과정을 보여줍니다.
+
+```mermaid
+flowchart TD
+    START[GPT Builder 접속] --> CHOOSE{생성 방식 선택}
+
+    CHOOSE --> |Create 탭| CREATE[대화로 생성<br/>AI가 질문하며 설정]
+    CHOOSE --> |Configure 탭| CONFIG[직접 설정<br/>세부 항목 입력]
+
+    CREATE --> TEST[Preview에서 테스트]
+    CONFIG --> TEST
+
+    TEST --> |수정 필요| CONFIG
+    TEST --> |완료| SAVE{공개 범위 설정}
+
+    SAVE --> PUBLIC[Public<br/>GPT Store 게시]
+    SAVE --> LINK[Link로 공유<br/>링크 아는 사람만]
+    SAVE --> PRIVATE[Private<br/>나만 사용]
+
+    PUBLIC --> DONE[Custom GPT 완성]
+    LINK --> DONE
+    PRIVATE --> DONE
+
+    style START fill:#e3f2fd
+    style DONE fill:#c8e6c9
+```
 
 ### Configure 탭 설정 항목
 
@@ -289,6 +419,36 @@ Zapier를 활용하면 코딩 없이 설정 가능:
 - Gmail: 이메일 발송
 - Google Calendar: 일정 등록
 - Slack: 팀 알림
+
+### GPT Builder Configure 구조
+
+아래 다이어그램은 Configure 탭의 6가지 설정 항목과 그 관계를 보여줍니다.
+
+```mermaid
+flowchart TB
+    subgraph CONFIG["Configure 탭"]
+        direction TB
+        NAME["1. Name & Description<br/>GPT 이름과 설명"]
+        INST["2. Instructions<br/>역할, 업무, 출력 형식"]
+        CONV["3. Conversation Starters<br/>시작 프롬프트 예시"]
+        KNOW["4. Knowledge<br/>참조 파일 업로드"]
+        CAP["5. Capabilities<br/>Web/DALL-E/Code"]
+        ACT["6. Actions<br/>외부 API 연동"]
+    end
+
+    NAME --> GPT[Custom GPT]
+    INST --> GPT
+    CONV --> GPT
+    KNOW --> GPT
+    CAP --> GPT
+    ACT --> GPT
+
+    INST --> |가장 중요| QUALITY[GPT 품질 결정]
+
+    style CONFIG fill:#fff3e0
+    style INST fill:#ffcc80
+    style QUALITY fill:#c8e6c9
+```
 
 ### 실전 GPT 예시
 
@@ -356,6 +516,45 @@ Instructions:
 **Code Interpreter**(현재 명칭: Advanced Data Analysis)는 ChatGPT가 Python 코드를 실행하여 데이터 분석, 차트 생성 등을 수행하는 기능입니다.
 
 **핵심**: 사용자가 코드를 몰라도 자연어로 요청하면 AI가 알아서 코드를 작성하고 실행합니다.
+
+### Code Interpreter 워크플로우
+
+아래 다이어그램은 Code Interpreter를 사용한 데이터 분석 과정을 보여줍니다.
+
+```mermaid
+flowchart LR
+    subgraph 입력["입력"]
+        FILE[파일 업로드<br/>CSV, Excel, PDF]
+        REQ[자연어 요청<br/>분석해줘]
+    end
+
+    subgraph 처리["AI 처리"]
+        CODE[Python 코드<br/>자동 생성]
+        EXEC[코드 실행]
+        CODE --> EXEC
+    end
+
+    subgraph 출력["결과물"]
+        CHART[차트/그래프]
+        TABLE[데이터 표]
+        INSIGHT[인사이트]
+        EXPORT[파일 다운로드<br/>PNG, PDF]
+    end
+
+    FILE --> CODE
+    REQ --> CODE
+
+    EXEC --> CHART
+    EXEC --> TABLE
+    EXEC --> INSIGHT
+
+    CHART --> EXPORT
+    TABLE --> EXPORT
+
+    style 입력 fill:#e3f2fd
+    style 처리 fill:#f3e5f5
+    style 출력 fill:#c8e6c9
+```
 
 ### 활성화 방법
 
@@ -476,6 +675,44 @@ Instructions:
 2. **수동**: "Canvas를 사용해서 작성해줘" 프롬프트에 포함
 3. **메뉴**: View tools > Canvas 선택
 
+### Canvas 편집 프로세스
+
+아래 다이어그램은 Canvas를 활용한 문서 작성 및 편집 과정을 보여줍니다.
+
+```mermaid
+flowchart TD
+    START[문서 작성 요청] --> OPEN{Canvas 활성화}
+
+    OPEN --> |자동| AUTO[10줄 이상<br/>콘텐츠 생성]
+    OPEN --> |수동| MANUAL[Canvas로<br/>작성해줘]
+
+    AUTO --> CANVAS[Canvas 편집기 열림]
+    MANUAL --> CANVAS
+
+    CANVAS --> EDIT{편집 방식}
+
+    EDIT --> INLINE[인라인 편집<br/>부분 선택 후 수정]
+    EDIT --> SHORTCUT[단축 기능<br/>길이/수준 조정]
+    EDIT --> DIRECT[직접 타이핑<br/>텍스트 수정]
+
+    INLINE --> VERSION[버전 저장]
+    SHORTCUT --> VERSION
+    DIRECT --> VERSION
+
+    VERSION --> |이전 버전 필요| RESTORE[버전 복원]
+    RESTORE --> CANVAS
+
+    VERSION --> EXPORT{내보내기}
+
+    EXPORT --> PDF[PDF]
+    EXPORT --> WORD[Word]
+    EXPORT --> MD[Markdown]
+
+    style START fill:#e3f2fd
+    style CANVAS fill:#fff3e0
+    style EXPORT fill:#c8e6c9
+```
+
 ### 주요 기능
 
 #### 글쓰기 단축 기능
@@ -539,6 +776,54 @@ Instructions:
 
 **Projects**는 관련된 대화, 파일, 지침을 한 곳에서 관리하는 **스마트 워크스페이스**입니다.
 
+### Projects 구조
+
+아래 다이어그램은 Projects의 구성 요소와 작동 방식을 보여줍니다.
+
+```mermaid
+flowchart TB
+    subgraph PROJECT["Project: 2024 연말 캠페인"]
+        direction TB
+
+        subgraph FILES["업로드 파일"]
+            F1[성과 보고서.pdf]
+            F2[브랜드 가이드.pdf]
+            F3[고객 데이터.csv]
+        end
+
+        subgraph INST["프로젝트 지침"]
+            I1[브랜드 톤 설정]
+            I2[타겟 고객 정의]
+            I3[핵심 메시지]
+        end
+
+        subgraph CHATS["관련 대화들"]
+            C1[기획서 작성]
+            C2[콘텐츠 아이디어]
+            C3[카피라이팅]
+            C4[성과 분석]
+        end
+    end
+
+    FILES --> |모든 대화에서 참조| CHATS
+    INST --> |일관된 맥락 유지| CHATS
+
+    C1 --> MEMORY[프로젝트 메모리]
+    C2 --> MEMORY
+    C3 --> MEMORY
+    C4 --> MEMORY
+
+    MEMORY --> |컨텍스트 유지| C1
+    MEMORY --> |컨텍스트 유지| C2
+    MEMORY --> |컨텍스트 유지| C3
+    MEMORY --> |컨텍스트 유지| C4
+
+    style PROJECT fill:#f3e5f5
+    style FILES fill:#e3f2fd
+    style INST fill:#fff3e0
+    style CHATS fill:#e8f5e9
+```
+
 ### 주요 기능
 
 #### 1. 대화 그룹화
@@ -546,7 +831,7 @@ Instructions:
 - 기존 대화를 프로젝트로 이동 가능
 
 #### 2. 파일 업로드
-- 프로젝트에 파일 업로드 → 프로젝트 내 모든 대화에서 참조 가능
+- 프로젝트에 파일 업로드 -> 프로젝트 내 모든 대화에서 참조 가능
 - 지원: PDF, DOCX, XLSX, 이미지 등 (최대 500MB)
 
 #### 3. Custom Instructions 연동
@@ -613,6 +898,46 @@ Instructions:
 | Canvas | - | 문서 편집 (Claude는 Artifacts) |
 | Projects | 프로젝트 폴더 | 작업 공간 관리 |
 
+### ChatGPT와 Claude Code 기능 비교도
+
+아래 다이어그램은 두 도구의 기능 매핑 관계를 시각적으로 보여줍니다.
+
+```mermaid
+flowchart LR
+    subgraph CHATGPT["ChatGPT"]
+        direction TB
+        CI[Custom Instructions]
+        MEM[Memory]
+        GPT[Custom GPTs]
+        ACT[GPT Actions]
+        CODE[Code Interpreter]
+        CANVAS[Canvas]
+        PROJ[Projects]
+    end
+
+    subgraph CLAUDE["Claude Code"]
+        direction TB
+        INST[Instructions .md]
+        NONE1["-"]
+        SLASH[Slash Commands]
+        MCP[MCP Server]
+        TOOLS[Built-in Tools]
+        NONE2[Artifacts]
+        FOLDER[프로젝트 폴더]
+    end
+
+    CI -.-> INST
+    MEM -.-> NONE1
+    GPT -.-> SLASH
+    ACT -.-> MCP
+    CODE -.-> TOOLS
+    CANVAS -.-> NONE2
+    PROJ -.-> FOLDER
+
+    style CHATGPT fill:#e3f2fd
+    style CLAUDE fill:#fff3e0
+```
+
 ### 주요 차이점
 
 #### ChatGPT 강점
@@ -646,6 +971,45 @@ Instructions:
 ---
 
 ## 8. 시작하기 체크리스트
+
+### 4주 학습 로드맵
+
+아래 다이어그램은 ChatGPT 고급 기능을 체계적으로 학습하는 4주 과정을 보여줍니다.
+
+```mermaid
+flowchart LR
+    subgraph W1["Week 1: 기초 설정"]
+        W1A[Custom Instructions 설정]
+        W1B[Memory 첫 활용]
+    end
+
+    subgraph W2["Week 2: 도구 활용"]
+        W2A[Code Interpreter<br/>데이터 분석]
+        W2B[Canvas<br/>문서 편집]
+    end
+
+    subgraph W3["Week 3: 자동화"]
+        W3A[Custom GPT<br/>1개 생성]
+        W3B[Projects<br/>작업 공간 구성]
+    end
+
+    subgraph W4["Week 4: 최적화"]
+        W4A[Custom GPTs<br/>3개 이상 보유]
+        W4B[팀과 공유<br/>협업 확대]
+    end
+
+    W1 --> W2 --> W3 --> W4
+
+    W1A --> W1B
+    W2A --> W2B
+    W3A --> W3B
+    W4A --> W4B
+
+    style W1 fill:#e3f2fd
+    style W2 fill:#f3e5f5
+    style W3 fill:#fff3e0
+    style W4 fill:#c8e6c9
+```
 
 ### Week 1: 기초 설정
 

@@ -34,6 +34,25 @@
 | 5 | 실전 팁 | 10분 |
 | **총** | | **110분** |
 
+**교육 흐름 다이어그램**
+
+```mermaid
+flowchart LR
+    P1[Part 1<br/>마인드셋 전환<br/>10분]
+    P2[Part 2<br/>프레임워크 기반<br/>활용법 30분]
+    P3[Part 3<br/>직군별<br/>실전 활용 40분]
+    P4[Part 4<br/>Jira/Confluence<br/>연동 실습 20분]
+    P5[Part 5<br/>실전 팁<br/>10분]
+
+    P1 --> P2 --> P3 --> P4 --> P5
+
+    style P1 fill:#e1f5fe
+    style P2 fill:#f3e5f5
+    style P3 fill:#fff3e0
+    style P4 fill:#e8f5e9
+    style P5 fill:#fce4ec
+```
+
 ---
 
 ## Part 1: 마인드셋 전환
@@ -71,6 +90,26 @@ AI는 **프로세스의 각 단계를 가속화**하는 도구입니다.
 | **Check (검토)** | 수동 검토 | "이 결과물 검토해줘", "문제점 찾아줘" |
 | **Act (조치)** | 개선안 도출 | "개선 방안 3가지 제안해줘", "다음 단계 정리해줘" |
 
+**PDCA + AI 활용 사이클**
+
+```mermaid
+flowchart LR
+    P[Plan<br/>계획]
+    D[Do<br/>실행]
+    C[Check<br/>검토]
+    A[Act<br/>조치]
+
+    P -->|AI: 조사/계획 초안| D
+    D -->|AI: 데이터 정리/문서화| C
+    C -->|AI: 검토/문제점 발견| A
+    A -->|AI: 개선안 제안| P
+
+    style P fill:#bbdefb
+    style D fill:#c8e6c9
+    style C fill:#fff9c4
+    style A fill:#ffccbc
+```
+
 #### 실습 예시
 
 ```
@@ -84,6 +123,33 @@ Act: 표준화 방안"
 ---
 
 ### 2.2 컨설팅 프레임워크 활용
+
+**프레임워크 활용 프로세스**
+
+```mermaid
+flowchart LR
+    subgraph 문제분석
+        MECE[MECE<br/>구조화]
+        WHY[5 Whys<br/>근본원인]
+    end
+
+    subgraph 해결책도출
+        TREE[Issue Tree<br/>해결방안]
+        SWOT[SWOT<br/>전략분석]
+    end
+
+    subgraph 문서화
+        PYR[Pyramid<br/>보고서]
+    end
+
+    MECE --> WHY --> TREE --> SWOT --> PYR
+
+    style MECE fill:#e3f2fd
+    style WHY fill:#fce4ec
+    style TREE fill:#f3e5f5
+    style SWOT fill:#e8f5e9
+    style PYR fill:#fff8e1
+```
 
 #### MECE로 문제 구조화
 
@@ -138,6 +204,20 @@ Act: 표준화 방안"
 
 **상황**: 신규 기능 기획서 작성
 
+**기획/PM 워크플로우**
+
+```mermaid
+flowchart LR
+    A[1단계<br/>조사] --> B[2단계<br/>구조화] --> C[3단계<br/>문서화]
+
+    A1[Best Practice<br/>조사] --> B1[RICE<br/>우선순위]
+    B1 --> C1[PRD<br/>초안 작성]
+
+    style A fill:#e3f2fd
+    style B fill:#f3e5f5
+    style C fill:#e8f5e9
+```
+
 ```
 1단계 - 조사:
 "B2B SaaS에서 사용자 온보딩 best practice 조사해줘"
@@ -163,6 +243,18 @@ RICE 스코어링으로 우선순위 정해줘"
 ### 3.2 마케팅
 
 **상황**: 캠페인 기획
+
+**마케팅 캠페인 워크플로우**
+
+```mermaid
+flowchart LR
+    A[1단계<br/>시장 분석] --> B[2단계<br/>타겟 정의] --> C[3단계<br/>콘텐츠 기획] --> D[4단계<br/>A/B 테스트]
+
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#fff3e0
+    style D fill:#e8f5e9
+```
 
 ```
 1단계 - 시장 분석:
@@ -191,6 +283,18 @@ RICE 스코어링으로 우선순위 정해줘"
 
 **상황**: 제안서 작성
 
+**영업/BD 제안서 작성 워크플로우**
+
+```mermaid
+flowchart LR
+    A[1단계<br/>고객 분석] --> B[2단계<br/>솔루션 매칭] --> C[3단계<br/>제안서 구조] --> D[4단계<br/>예상 질문]
+
+    style A fill:#e8eaf6
+    style B fill:#fce4ec
+    style C fill:#e0f7fa
+    style D fill:#fff8e1
+```
+
 ```
 1단계 - 고객 분석:
 "[회사명]의 최근 뉴스, IR 자료 분석해서 pain point 파악해줘"
@@ -218,6 +322,18 @@ RICE 스코어링으로 우선순위 정해줘"
 ### 3.4 HR/운영
 
 **상황**: 성과 평가 체계 개선
+
+**HR/운영 개선 워크플로우**
+
+```mermaid
+flowchart LR
+    A[1단계<br/>현황 분석] --> B[2단계<br/>벤치마킹] --> C[3단계<br/>개선안] --> D[4단계<br/>실행 계획]
+
+    style A fill:#ffebee
+    style B fill:#e3f2fd
+    style C fill:#f3e5f5
+    style D fill:#e8f5e9
+```
 
 ```
 1단계 - 현황 분석:
@@ -281,6 +397,34 @@ RICE 스코어링으로 우선순위 정해줘"
 
 ### AI-driven-work 프로젝트 활용
 
+**Jira/Confluence 연동 프로세스 개요**
+
+```mermaid
+flowchart LR
+    subgraph 일일루틴
+        A[Claude Code<br/>실행] --> B[/daily-standup]
+        B --> C[이슈 할당<br/>/assign-me]
+    end
+
+    subgraph 주간루틴
+        D[/weekly-report] --> E[Confluence<br/>자동 저장]
+    end
+
+    subgraph 문서화
+        F[Slack 스레드] --> G[/save-slack-thread]
+        G --> H[Confluence<br/>페이지]
+    end
+
+    style A fill:#e3f2fd
+    style B fill:#f3e5f5
+    style C fill:#e8f5e9
+    style D fill:#fff3e0
+    style E fill:#e8f5e9
+    style F fill:#fce4ec
+    style G fill:#f3e5f5
+    style H fill:#e8f5e9
+```
+
 #### 일일 루틴
 
 ```bash
@@ -339,6 +483,21 @@ claude
 ## Part 5: 실전 팁
 
 ### 좋은 프롬프트의 3요소
+
+**프롬프트 구성 요소**
+
+```mermaid
+flowchart LR
+    A[맥락<br/>Context] --> B[형식<br/>Format] --> C[제약<br/>Constraint]
+
+    A --> A1[배경 정보]
+    B --> B1[출력 형태]
+    C --> C1[범위/조건]
+
+    style A fill:#e3f2fd
+    style B fill:#f3e5f5
+    style C fill:#e8f5e9
+```
 
 1. **맥락(Context)**: 배경 정보 제공
    - "우리는 B2B SaaS 회사이고..."
@@ -421,6 +580,18 @@ $ARGUMENTS
 
 복잡한 문제는 단계별로 나눠서 질문합니다.
 
+**체인 프롬프트 흐름**
+
+```mermaid
+flowchart LR
+    A[1차<br/>MECE 분류] --> B[2차<br/>5 Whys 분석] --> C[3차<br/>Issue Tree] --> D[4차<br/>피라미드 보고서]
+
+    style A fill:#e3f2fd
+    style B fill:#fce4ec
+    style C fill:#f3e5f5
+    style D fill:#e8f5e9
+```
+
 ```
 1차: "이 문제를 MECE하게 분류해줘"
      ↓
@@ -496,6 +667,18 @@ AI의 첫 번째 답변을 그대로 사용하지 말고, 검토 요청을 합�
 
 ### 4. 주간 AI 활용 챌린지
 
+**주간 챌린지 진행 흐름**
+
+```mermaid
+flowchart LR
+    W1[Week 1<br/>PDCA 개선] --> W2[Week 2<br/>피라미드 보고서] --> W3[Week 3<br/>Jira/Confluence<br/>자동화] --> W4[Week 4<br/>Slash Command<br/>만들기]
+
+    style W1 fill:#e3f2fd
+    style W2 fill:#f3e5f5
+    style W3 fill:#fff3e0
+    style W4 fill:#e8f5e9
+```
+
 **Week 1**: PDCA로 업무 하나 개선하기
 **Week 2**: 보고서를 피라미드 구조로 작성하기
 **Week 3**: Jira/Confluence 연동으로 주간보고 자동화
@@ -518,6 +701,18 @@ AI의 첫 번째 답변을 그대로 사용하지 말고, 검토 요청을 합�
 ## 핵심 요약
 
 ### 비개발자가 AI를 잘 쓰려면
+
+**AI 활용 성숙도 단계**
+
+```mermaid
+flowchart LR
+    A[1. 프레임워크<br/>익히기] --> B[2. 프로세스에<br/>AI 끼워넣기] --> C[3. 반복 작업<br/>자동화] --> D[4. 점진적<br/>확장]
+
+    style A fill:#e3f2fd
+    style B fill:#f3e5f5
+    style C fill:#fff3e0
+    style D fill:#e8f5e9
+```
 
 1. **프레임워크를 먼저 익혀라**
    - PDCA, MECE, Issue Tree, Pyramid Principle

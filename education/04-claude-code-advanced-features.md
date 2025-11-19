@@ -43,6 +43,49 @@
 | Explore/Task | AI 탐정 파견 | 방대한 자료 빠르게 조사 |
 | Sub Agent | AI 팀원 고용 | 여러 작업 동시 처리 |
 
+**Claude Code 고급 기능 관계도:**
+
+```mermaid
+graph TB
+    subgraph "Claude Code 고급 기능 체계"
+        User["사용자"]
+
+        subgraph "기본 설정 레이어"
+            Instructions["Instructions<br/>업무 규칙/맥락"]
+        end
+
+        subgraph "실행 레이어"
+            SlashCmd["Slash Commands<br/>자동화 명령"]
+            Skills["Skills<br/>전문 능력"]
+        end
+
+        subgraph "처리 레이어"
+            Explore["Explore<br/>빠른 탐색"]
+            Task["Task<br/>심층 분석"]
+            SubAgent["Sub Agent<br/>병렬 처리"]
+        end
+
+        Output["결과물"]
+    end
+
+    User --> Instructions
+    Instructions --> SlashCmd
+    Instructions --> Skills
+    SlashCmd --> Explore
+    SlashCmd --> Task
+    Skills --> Task
+    Explore --> Output
+    Task --> SubAgent
+    SubAgent --> Output
+
+    style Instructions fill:#e1f5fe
+    style SlashCmd fill:#f3e5f5
+    style Skills fill:#fff3e0
+    style Explore fill:#e8f5e9
+    style Task fill:#e8f5e9
+    style SubAgent fill:#fce4ec
+```
+
 ---
 
 ## 1. Instructions - AI에게 업무 규칙 가르치기
@@ -77,6 +120,37 @@ Jira로 프로젝트 관리하고, Confluence에 문서화해.
 └── .claude/
     └── instructions/
         └── my-rules.md    ← 여기에 작성
+```
+
+**프로젝트 디렉토리 구조:**
+
+```mermaid
+graph TD
+    Root["프로젝트폴더/"]
+    Claude[".claude/"]
+    Inst["instructions/"]
+    Cmd["commands/"]
+
+    InstFile1["marketing-rules.md"]
+    InstFile2["sales-rules.md"]
+
+    CmdFile1["daily-standup.md"]
+    CmdFile2["weekly-report.md"]
+    CmdFile3["market-analysis.md"]
+
+    Root --> Claude
+    Claude --> Inst
+    Claude --> Cmd
+    Inst --> InstFile1
+    Inst --> InstFile2
+    Cmd --> CmdFile1
+    Cmd --> CmdFile2
+    Cmd --> CmdFile3
+
+    style Root fill:#e3f2fd
+    style Claude fill:#f3e5f5
+    style Inst fill:#e8f5e9
+    style Cmd fill:#fff3e0
 ```
 
 #### 예시: 마케팅팀 Instructions
@@ -128,6 +202,36 @@ AI: "🎉 안녕하세요! 오늘의 꿀팁을 소개합니다~ 👍"
 AI: "HR 업무 효율을 높이는 3가지 방법을 소개합니다.
      첫째, 반복 업무 자동화..."
      (브랜드 톤앤매너에 맞게 작성됨)
+```
+
+**Instructions 적용 흐름:**
+
+```mermaid
+flowchart LR
+    subgraph "설정 단계"
+        A["Instructions 파일 작성<br/>.claude/instructions/"]
+    end
+
+    subgraph "실행 단계"
+        B["Claude Code 시작"]
+        C["Instructions 자동 로드"]
+    end
+
+    subgraph "적용 단계"
+        D["사용자 요청"]
+        E["Instructions 규칙 적용"]
+        F["맞춤 결과물 생성"]
+    end
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+
+    style A fill:#e3f2fd
+    style C fill:#f1f8e9
+    style F fill:#fff8e1
 ```
 
 ### 활용 팁
@@ -331,6 +435,40 @@ $ARGUMENTS에 대한 경쟁사 분석을 수행해줘:
 
 **사용**: `/competitor-analysis 토스페이먼츠`
 
+**Slash Commands 실행 프로세스:**
+
+```mermaid
+flowchart TB
+    subgraph "명령어 정의"
+        A["command 파일 생성<br/>.claude/commands/xxx.md"]
+    end
+
+    subgraph "실행"
+        B["사용자: /command 입력"]
+        C["$ARGUMENTS 치환"]
+    end
+
+    subgraph "처리"
+        D["명령어 내용 실행"]
+        E["결과물 생성"]
+    end
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+
+    F["예시: /market-analysis 전기차"]
+    G["$ARGUMENTS = '전기차'"]
+    H["전기차 시장 분석 수행"]
+
+    F -.-> G
+    G -.-> H
+
+    style A fill:#f3e5f5
+    style E fill:#e8f5e9
+```
+
 ### 예시 5: 미팅 노트 정리
 
 파일: `.claude/commands/meeting-notes.md`
@@ -472,6 +610,46 @@ $ARGUMENTS
 "분석 결과를 바탕으로 다음 캠페인 전략을 제안해줘"
 ```
 
+**Skills 활용 워크플로우:**
+
+```mermaid
+flowchart LR
+    subgraph "입력"
+        PDF["PDF 파일"]
+        Excel["Excel 파일"]
+        Image["이미지 파일"]
+    end
+
+    subgraph "Skills 처리"
+        S1["pdf skill<br/>문서 분석"]
+        S2["xlsx skill<br/>데이터 처리"]
+        S3["image skill<br/>시각 분석"]
+    end
+
+    subgraph "활용"
+        A1["계약서 검토"]
+        A2["매출 분석"]
+        A3["광고 분석"]
+    end
+
+    subgraph "결과"
+        R["종합 인사이트"]
+    end
+
+    PDF --> S1 --> A1
+    Excel --> S2 --> A2
+    Image --> S3 --> A3
+
+    A1 --> R
+    A2 --> R
+    A3 --> R
+
+    style S1 fill:#e3f2fd
+    style S2 fill:#e8f5e9
+    style S3 fill:#fff3e0
+    style R fill:#f3e5f5
+```
+
 ---
 
 ## 4. Explore & Task - AI 탐정 보내기
@@ -490,6 +668,32 @@ $ARGUMENTS
 | **속도** | 빠름 | 상대적으로 느림 |
 | **깊이** | 표면적 조사 | 심층 분석 |
 | **예시** | "이 파일 어디 있어?" | "이 시스템 전체 분석해줘" |
+
+**Explore vs Task 비교:**
+
+```mermaid
+graph TB
+    subgraph "Explore - 빠른 탐색"
+        E1["사용자 요청"]
+        E2["파일/정보 검색"]
+        E3["위치/목록 반환"]
+        E1 --> E2 --> E3
+    end
+
+    subgraph "Task - 심층 분석"
+        T1["사용자 요청"]
+        T2["다중 소스 수집"]
+        T3["데이터 분석"]
+        T4["인사이트 도출"]
+        T5["종합 보고서"]
+        T1 --> T2 --> T3 --> T4 --> T5
+    end
+
+    style E1 fill:#e8f5e9
+    style E3 fill:#e8f5e9
+    style T1 fill:#e3f2fd
+    style T5 fill:#e3f2fd
+```
 
 ### 언제 사용하나요?
 
@@ -617,6 +821,38 @@ Claude Code: (Task 에이전트를 실행하여)
 작업 B (10분) ─┼─→ 모두 완료
 작업 C (10분) ─┘
 총 10분 소요 (3배 빠름!)
+```
+
+**Sub Agent 병렬 처리 구조:**
+
+```mermaid
+graph TB
+    User["사용자 요청"]
+
+    subgraph "병렬 처리"
+        direction LR
+        SA1["Sub Agent 1<br/>작업 A"]
+        SA2["Sub Agent 2<br/>작업 B"]
+        SA3["Sub Agent 3<br/>작업 C"]
+    end
+
+    Merge["결과 통합"]
+    Output["최종 결과물"]
+
+    User --> SA1
+    User --> SA2
+    User --> SA3
+    SA1 --> Merge
+    SA2 --> Merge
+    SA3 --> Merge
+    Merge --> Output
+
+    style User fill:#e3f2fd
+    style SA1 fill:#fff3e0
+    style SA2 fill:#fff3e0
+    style SA3 fill:#fff3e0
+    style Merge fill:#f3e5f5
+    style Output fill:#e8f5e9
 ```
 
 ### 사용 시나리오
@@ -810,6 +1046,48 @@ Slack에 링크 공유
 
 4단계: 실행 계획
 "90일 실행 로드맵을 작성해줘"
+```
+
+**실전 조합 활용 워크플로우 (주간 보고 시스템):**
+
+```mermaid
+flowchart TB
+    subgraph "트리거"
+        A["금요일 오후 3시<br/>/weekly-report 실행"]
+    end
+
+    subgraph "병렬 데이터 수집 (Sub Agent)"
+        B1["Jira<br/>완료 이슈"]
+        B2["Confluence<br/>주요 문서"]
+        B3["Excel<br/>KPI 데이터"]
+        B4["Slack<br/>주요 논의"]
+    end
+
+    subgraph "처리"
+        C["Instructions 규칙 적용<br/>(피라미드 구조, 톤앤매너)"]
+        D["보고서 작성"]
+    end
+
+    subgraph "출력"
+        E1["Confluence 저장"]
+        E2["Slack 공유"]
+    end
+
+    A --> B1
+    A --> B2
+    A --> B3
+    A --> B4
+    B1 --> C
+    B2 --> C
+    B3 --> C
+    B4 --> C
+    C --> D
+    D --> E1
+    D --> E2
+
+    style A fill:#f3e5f5
+    style C fill:#e1f5fe
+    style D fill:#e8f5e9
 ```
 
 ---

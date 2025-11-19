@@ -21,6 +21,18 @@
 
 모든 프로젝트는 직군에 관계없이 5단계를 거칩니다.
 
+**프로젝트 생명주기 흐름도:**
+
+```mermaid
+flowchart LR
+    A[1. 개시<br/>Initiation] --> B[2. 계획<br/>Planning]
+    B --> C[3. 실행<br/>Execution]
+    C --> D[4. 모니터링<br/>Monitoring]
+    D --> E[5. 종료<br/>Closure]
+    D -.->|피드백| C
+    D -.->|조정| B
+```
+
 #### 1단계: 개시 (Initiation)
 - **목적**: 프로젝트의 필요성, 범위, 목표 정의
 - **주요 활동**:
@@ -100,6 +112,19 @@
 
 ### 1.3 의사결정 프로세스 (7단계)
 
+**의사결정 프로세스 흐름도:**
+
+```mermaid
+flowchart LR
+    A[1. 문제 정의] --> B[2. 정보 수집]
+    B --> C[3. 대안 생성]
+    C --> D[4. 대안 평가]
+    D --> E[5. 의사결정]
+    E --> F[6. 전달 및 설명]
+    F --> G[7. 모니터링 및 조정]
+    G -.->|재검토 필요| A
+```
+
 1. **문제 정의**: 명확한 질문 형성
 2. **정보 수집**: 데이터, 전문가 의견, 과거 사례
 3. **대안 생성**: 최소 3가지 옵션 도출
@@ -113,6 +138,30 @@
 ### 1.4 협업 패턴
 
 #### 협업 모델
+
+**협업 모델 비교 다이어그램:**
+
+```mermaid
+flowchart TB
+    subgraph 순차적
+        A1[담당자 A] --> A2[담당자 B] --> A3[담당자 C]
+    end
+
+    subgraph 병렬
+        B1[담당자 A]
+        B2[담당자 B]
+        B3[담당자 C]
+    end
+
+    subgraph 페어
+        C1[담당자 A] <--> C2[담당자 B]
+    end
+
+    subgraph 검토기반
+        D1[작업자] --> D2[검토자] --> D3[승인]
+        D2 -.->|수정| D1
+    end
+```
 
 | 모델 | 설명 | 활용 |
 |------|------|------|
@@ -133,6 +182,18 @@
 
 #### 작업 분류
 
+**작업 계층 구조:**
+
+```mermaid
+flowchart TB
+    A[Epic<br/>몇 주~몇 달] --> B[Story<br/>며칠~1주]
+    A --> C[Story<br/>며칠~1주]
+    B --> D[Task<br/>반나절~며칠]
+    B --> E[Task<br/>반나절~며칠]
+    D --> F[Sub-Task<br/>몇 시간~1일]
+    D --> G[Sub-Task<br/>몇 시간~1일]
+```
+
 | 단위 | 완료 기간 | 특징 |
 |------|----------|------|
 | **Epic** | 몇 주~몇 달 | 큰 목표, 여러 Story 포함 |
@@ -141,8 +202,15 @@
 | **Sub-Task** | 몇 시간~1일 | 작은 단계 |
 
 #### 작업 수명주기
-```
-To Do → In Progress → In Review → Done
+
+**작업 상태 전환 흐름도:**
+
+```mermaid
+flowchart LR
+    A[To Do<br/>할 일] --> B[In Progress<br/>진행 중]
+    B --> C[In Review<br/>검토 중]
+    C --> D[Done<br/>완료]
+    C -.->|수정 필요| B
 ```
 
 #### 좋은 작업 할당의 조건
@@ -156,6 +224,16 @@ To Do → In Progress → In Review → Done
 ### 1.6 품질 보증 (Quality Assurance)
 
 #### 품질 관리 프로세스
+
+**품질 관리 사이클:**
+
+```mermaid
+flowchart LR
+    A[1. 품질 기준 정의] --> B[2. 품질 보증<br/>QA]
+    B --> C[3. 품질 제어<br/>QC]
+    C --> D[4. 개선]
+    D -.->|지속적 개선| A
+```
 
 1. **품질 기준 정의**: 수용 기준, 테스트 범위
 2. **품질 보증 (QA)**: 프로세스 감시, 기준 준수 확인
@@ -209,8 +287,17 @@ To Do → In Progress → In Review → Done
 
 ### 2.2 코드 개발 워크플로우
 
-```
-요구사항 분석 → 설계 → 개발 → 코드 리뷰 → 테스트 → 배포
+**개발 워크플로우 흐름도:**
+
+```mermaid
+flowchart LR
+    A[요구사항 분석] --> B[설계]
+    B --> C[개발]
+    C --> D[코드 리뷰]
+    D --> E[테스트]
+    E --> F[배포]
+    D -.->|수정 요청| C
+    E -.->|버그 발견| C
 ```
 
 #### 각 단계 상세
@@ -247,12 +334,42 @@ To Do → In Progress → In Review → Done
 ### 2.3 버전 관리 (Git Flow)
 
 #### 브랜치 구조
+
+**Git Flow 브랜치 구조 다이어그램:**
+
+```mermaid
+gitGraph
+    commit id: "초기 커밋"
+    branch develop
+    commit id: "개발 시작"
+    branch feature/login
+    commit id: "로그인 기능"
+    checkout develop
+    merge feature/login
+    branch feature/signup
+    commit id: "회원가입 기능"
+    checkout develop
+    merge feature/signup
+    checkout main
+    merge develop tag: "v1.0"
+    branch hotfix/security
+    commit id: "보안 패치"
+    checkout main
+    merge hotfix/security tag: "v1.0.1"
 ```
-main (프로덕션)
-└── develop (개발)
-    ├── feature/* (기능)
-    ├── bugfix/* (버그 수정)
-    └── hotfix/* (긴급)
+
+**브랜치 계층 구조:**
+
+```mermaid
+flowchart TB
+    A[main<br/>프로덕션] --> B[develop<br/>개발]
+    B --> C[feature/*<br/>기능]
+    B --> D[bugfix/*<br/>버그 수정]
+    A --> E[hotfix/*<br/>긴급]
+    C -.->|병합| B
+    D -.->|병합| B
+    B -.->|릴리스| A
+    E -.->|병합| A
 ```
 
 #### 커밋 메시지 규칙
@@ -271,6 +388,29 @@ Types:
 
 ### 2.4 CI/CD 파이프라인
 
+**CI/CD 파이프라인 전체 흐름도:**
+
+```mermaid
+flowchart LR
+    subgraph CI[Continuous Integration]
+        A[코드 Push] --> B[빌드]
+        B --> C[테스트]
+        C --> D[코드 검사]
+        D --> E[결과 보고]
+    end
+
+    subgraph CD[Continuous Deployment]
+        F[Main 변경] --> G[배포 전 검증]
+        G --> H[스테이징 배포]
+        H --> I[프로덕션 배포]
+        I --> J[모니터링]
+    end
+
+    E --> F
+    C -.->|실패| A
+    G -.->|실패| A
+```
+
 #### CI (Continuous Integration)
 ```
 코드 Push → 빌드 → 테스트 → 코드 검사 → 결과 보고
@@ -288,6 +428,18 @@ Main 브랜치 변경 → 배포 전 검증 → 배포 → 모니터링
 ### 3.1 제품 관리 (Product Management)
 
 #### 제품 발견 프로세스
+
+**제품 발견 및 관리 흐름도:**
+
+```mermaid
+flowchart LR
+    A[고객 조사] --> B[요구사항 문서화]
+    B --> C[우선순위 결정<br/>RICE]
+    C --> D[백로그 관리]
+    D --> E[로드맵 계획]
+    E -.->|피드백| A
+```
+
 1. **고객 조사**: 인터뷰, 시장 분석
 2. **요구사항 문서화**: 니즈 정의, 범위 설정
 3. **우선순위 결정**: RICE 스코어링
@@ -309,6 +461,18 @@ RICE = (Reach × Impact × Confidence) / Effort
 ### 3.2 디자인 (UX/UI Design)
 
 #### 디자인 프로세스
+
+**UX/UI 디자인 프로세스 흐름도:**
+
+```mermaid
+flowchart LR
+    A[사용자 조사] --> B[와이어프레이밍]
+    B --> C[프로토타이핑]
+    C --> D[디자인 시스템]
+    D --> E[개발 핸드오프]
+    C -.->|사용자 테스트| A
+```
+
 1. **사용자 조사**: 인터뷰, 설문, 테스트
 2. **와이어프레이밍**: 화면 레이아웃 설계
 3. **프로토타이핑**: 목업 제작
@@ -327,6 +491,20 @@ RICE = (Reach × Impact × Confidence) / Effort
 ### 3.3 마케팅 (Marketing)
 
 #### 캠페인 계획 프로세스
+
+**마케팅 캠페인 프로세스 흐름도:**
+
+```mermaid
+flowchart LR
+    A[목표 설정] --> B[콘텐츠 계획]
+    B --> C[채널 선택]
+    C --> D[일정 수립]
+    D --> E[실행]
+    E --> F[모니터링]
+    F -.->|최적화| E
+    F -.->|다음 캠페인| A
+```
+
 1. **목표 설정**: KPI, 타겟 정의
 2. **콘텐츠 계획**: 메시지, 콘텐츠 유형
 3. **채널 선택**: SNS, 이메일, 광고
@@ -343,8 +521,17 @@ RICE = (Reach × Impact × Confidence) / Effort
 | **CTR** | 클릭율 |
 
 #### A/B 테스트 프로세스
-```
-목표 정의 → 가설 수립 → 버전 준비 → 테스트 실행 → 결과 분석 → 구현
+
+**A/B 테스트 흐름도:**
+
+```mermaid
+flowchart LR
+    A[목표 정의] --> B[가설 수립]
+    B --> C[버전 준비]
+    C --> D[테스트 실행]
+    D --> E[결과 분석]
+    E --> F[구현]
+    E -.->|추가 테스트| B
 ```
 
 ---
@@ -352,6 +539,19 @@ RICE = (Reach × Impact × Confidence) / Effort
 ### 3.4 영업 (Sales)
 
 #### 영업 프로세스
+
+**영업 파이프라인 흐름도:**
+
+```mermaid
+flowchart LR
+    A[리드 생성] --> B[리드 검증<br/>BANT]
+    B --> C[제안]
+    C --> D[협상]
+    D --> E[거래 종료]
+    B -.->|부적격| A
+    D -.->|재협상| C
+```
+
 1. **리드 생성**: 인바운드/아웃바운드
 2. **리드 검증 (BANT)**:
    - Budget (예산)
@@ -367,6 +567,24 @@ RICE = (Reach × Impact × Confidence) / Effort
 ### 3.5 인사/운영 (HR/Operations)
 
 #### 채용 프로세스
+
+**채용 프로세스 타임라인:**
+
+```mermaid
+gantt
+    title 채용 프로세스 타임라인
+    dateFormat  YYYY-MM-DD
+    section 채용
+    채용 계획     :a1, 2025-01-01, 7d
+    공고 배포     :a2, after a1, 14d
+    서류 검토     :a3, after a2, 10d
+    1차 면접      :a4, after a3, 7d
+    2차 면접      :a5, after a4, 7d
+    검증          :a6, after a5, 4d
+    제안          :a7, after a6, 4d
+    온보딩        :a8, after a7, 7d
+```
+
 1. 채용 계획 (1주)
 2. 공고 배포 (2주)
 3. 서류 검토 (1-2주)
@@ -384,8 +602,17 @@ RICE = (Reach × Impact × Confidence) / Effort
 - 첫 태스크 할당
 
 #### 성과 평가 프로세스
-```
-평가 기간 설정 → 자기 평가 → 상사 평가 → 동료 피드백 → 면담 → 계획 수립
+
+**성과 평가 프로세스 흐름도:**
+
+```mermaid
+flowchart LR
+    A[평가 기간 설정] --> B[자기 평가]
+    B --> C[상사 평가]
+    C --> D[동료 피드백]
+    D --> E[면담]
+    E --> F[계획 수립]
+    F -.->|다음 평가 주기| A
 ```
 
 ---
@@ -393,6 +620,19 @@ RICE = (Reach × Impact × Confidence) / Effort
 ### 3.6 재무 (Finance)
 
 #### 예산 수립 프로세스
+
+**예산 수립 프로세스 흐름도:**
+
+```mermaid
+flowchart LR
+    A[부서별 요청 수집<br/>Q4] --> B[재무 분석]
+    B --> C[경영진 검토]
+    C --> D[조정 및 최종화]
+    D --> E[부서별 할당]
+    E --> F[월별/분기별 모니터링]
+    C -.->|조정 요청| B
+```
+
 1. 부서별 요청 수집 (Q4)
 2. 재무 분석
 3. 경영진 검토
@@ -528,6 +768,29 @@ RICE = (Reach × Impact × Confidence) / Effort
 ---
 
 ## 6. 보편적 일관성과 문화적 차이의 통합
+
+**보편적 원칙과 문화적 적응의 통합 모델:**
+
+```mermaid
+flowchart LR
+    subgraph 보편적원칙[보편적 원칙 - 모든 곳에서 동일]
+        A[품질 관리]
+        B[문서화]
+        C[리스크 관리]
+        D[커뮤니케이션]
+        E[지속적 개선]
+    end
+
+    subgraph 문화적적응[문화적 적응 - 상황에 맞게 조정]
+        F[의사결정 스타일]
+        G[커뮤니케이션 방식]
+        H[리더십 접근]
+        I[피드백 방식]
+    end
+
+    보편적원칙 --> J[글로벌 성공]
+    문화적적응 --> J
+```
 
 ### 6.1 문화에 관계없이 보편적인 요소
 
