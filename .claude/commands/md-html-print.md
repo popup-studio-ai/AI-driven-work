@@ -1,6 +1,6 @@
-# Markdown to HTML for Print
+# Markdown to PDF Converter
 
-Convert a markdown file to a styled HTML document optimized for browser printing and viewing.
+Convert a markdown file to a beautifully styled PDF document using Puppeteer.
 
 ## Instructions
 
@@ -10,11 +10,12 @@ Convert a markdown file to a styled HTML document optimized for browser printing
    - Dark grey color scheme (#2c3e50 for headers)
    - Proper Korean font support (Apple SD Gothic Neo)
    - Beautiful table styling with borders and hover effects
-   - Print optimization with `@page { margin: 1cm; }`
+   - Print optimization with proper margins
    - Responsive design
    - Code block styling with syntax highlighting support
-4. Save the HTML file with `-print.html` suffix (e.g., `document.md` → `document-print.html`)
-5. Open the HTML file in the default browser using the `open` command
+4. Use Puppeteer to automatically generate PDF from the HTML
+5. Save the PDF file with `.pdf` extension (e.g., `document.md` → `document.pdf`)
+6. Open the PDF file automatically using the `open` command
 
 ## CSS Template
 
@@ -179,17 +180,28 @@ strong {
 
 1. Get the markdown file path from user
 2. Extract filename without extension
-3. Run: `npx marked input.md -o temp-content.html`
-4. Create complete HTML with header, CSS, content body, and closing tags
-5. Save as `{filename}-print.html`
-6. Run: `open {filename}-print.html`
-7. Inform user: "HTML created and opened in browser. Press Cmd+P to print as PDF."
+3. Convert markdown to HTML content: `npx marked input.md`
+4. Create a temporary HTML file with complete document structure (header, CSS, content body)
+5. Use Puppeteer to generate PDF:
+   ```bash
+   npx -y puppeteer@latest pdf temp.html output.pdf --format A4 --margin-top 1cm --margin-bottom 1cm --margin-left 1cm --margin-right 1cm
+   ```
+6. Delete the temporary HTML file
+7. Open the generated PDF: `open output.pdf`
+8. Inform user: "PDF generated successfully and opened automatically."
 
 ## Example Usage
 
 User: `/md-html-print document.md`
 
 Result:
-- Creates `document-print.html` with full styling
-- Opens in browser automatically
-- Ready for Cmd+P → Save as PDF
+- Creates `document.pdf` with full styling
+- Opens PDF automatically
+- No manual steps required
+
+## Puppeteer Options
+
+- Format: A4
+- Margins: 1cm on all sides
+- Print background: enabled (for colored headers and table styling)
+- Prefer CSS page size: enabled
