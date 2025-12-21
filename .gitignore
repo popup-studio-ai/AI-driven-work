@@ -1,2 +1,12 @@
 # macOS
 .DS_Store
+
+# Node
+node_modules/
+
+# Environment
+.env
+.envrc
+
+# Large files
+*.mp4
