@@ -1,0 +1,31 @@
+name: Slack Daily Riddle Reminder
+
+on:
+  schedule:
+    # 매일 19:00 KST = 10:00 UTC
+    - cron: '0 10 * * *'
+  workflow_dispatch: # 수동 실행 가능
+
+jobs:
+  post-reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post to Slack
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: |
+          DATE=$(TZ=Asia/Seoul date '+%Y년 %m월 %d일 %H시')
+
+          MESSAGE="${DATE} 입니다.
+          오늘도 리들에 글 한 줄 남겨보세요! 꿀팁이면 더 좋아요!
+          '무엇이든 물어보세요' 큰 그림에 매우 도움이 됩니다 💯 <!channel>
+          👉 https://bkamp.ai/ko/community"
+
+          curl -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"channel\": \"C09ESU5CE0M\",
+              \"text\": \"$MESSAGE\",
+              \"link_names\": true
+            }"
