@@ -159,9 +159,37 @@
 - 내 할당 이슈와 미할당 이슈 구분 표시
 
 ### `/weekly-report`
-- 이번 주 완료된 이슈 조회 (Done 상태)
-- 진행 중인 이슈 조회 (In Progress 상태)
-- Confluence 페이지 생성 및 링크 제공
+
+**주간 업무 보고서 생성 절차**:
+
+1. **보고 기간**: 월요일 ~ 일요일
+2. **Jira 업데이트 마감**: 매주 일요일 21시 (한국 시간)
+
+**조회 조건** (팀원 12명 각각에 대해):
+```jql
+-- 이번 주 변경된 모든 이슈
+project in (PS, BK, BKAM) AND assignee = "[이메일]"
+AND updated >= "[시작일]" AND updated <= "[종료일]"
+
+-- 이번 주 완료된 이슈
+project in (PS, BK, BKAM) AND assignee = "[이메일]"
+AND status changed to Done during ("[시작일]", "[종료일]")
+
+-- 진행 중인 이슈
+project in (PS, BK, BKAM) AND assignee = "[이메일]"
+AND status = "In Progress"
+
+-- 다음 주 예정 작업
+project in (PS, BK, BKAM) AND assignee = "[이메일]"
+AND (status in ("To Do", "Backlog") OR dueDate >= "[다음주 시작일]")
+```
+
+**확인 필드**: summary, status, issuetype, priority, updated, resolutiondate, duedate, description, parent, changelog
+
+**Confluence 저장**:
+- Space: POPUPSTUDI
+- 상위 폴더 ID: 7208961
+- 폴더 명명: YYMMDD (회의 날짜 기준)
 
 ### `/assign-me`
 - Task/Sub-Task만 할당 허용
