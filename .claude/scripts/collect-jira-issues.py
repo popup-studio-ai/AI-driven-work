@@ -40,8 +40,8 @@ TEAM_MEMBERS = [
     {"name": "황인준", "email": "injunh@popupstudio.ai"},
 ]
 
-# Jira 프로젝트
-PROJECTS = ["PS", "BK", "BKAM"]
+# Jira 프로젝트 (4개: PS, BK, BKIT, BKAM)
+PROJECTS = ["PS", "BK", "BKIT", "BKAM"]
 
 
 def load_env_file(env_path: str) -> dict:
@@ -224,7 +224,7 @@ def collect_member_issues(client: JiraClient, member: dict, start_date: str, end
         'reported_by_me': []
     }
 
-    projects_jql = 'project in (PS, BK, BKAM)'
+    projects_jql = 'project in (PS, BK, BKIT, BKAM)'
 
     # 1. 이번 주 변경된 모든 이슈
     jql = f'{projects_jql} AND assignee = "{email}" AND updated >= "{start_date}" AND updated <= "{end_date}" ORDER BY updated DESC'
