@@ -1,5 +1,28 @@
 # Weekly Report Command
 
+> **DEPRECATED v2.0.0**: 이 명령어는 skill로 마이그레이션되었습니다.
+>
+> **새로운 사용법**: `.claude/skills/weekly-report.md` 스킬 사용
+>
+> **Migration Guide:**
+> - 기존: `/weekly-report team` → 새로운: `/weekly-report`
+> - 기존: `/weekly-report me` → 새로운: `/weekly-report me`
+> - 새로운 기능: `/weekly-report BK` (특정 프로젝트만)
+> - 새로운 기능: `/weekly-report BKIT me` (특정 프로젝트 개인 보고서)
+>
+> **변경 사항:**
+> - 프로젝트 4개 지원: PS, BK, **BKIT**, BKAM
+> - 기간 계산 로직 명확화 (월요일 기준)
+> - Context 최적화 (Skill + Agent + Template 분리)
+> - 모든 이슈 타입 포함 (Epic, Story, Task, Sub-task, Bug)
+>
+> **관련 파일:**
+> - Skill: `.claude/skills/weekly-report.md`
+> - Agent: `.claude/agents/jira-collector.md`
+> - Template: `.claude/templates/weekly-report.template.md`
+
+---
+
 주간 보고서를 생성합니다. Jira 이슈를 기반으로 팀 전체 또는 개인의 주간 업무 보고서를 작성하고 Confluence에 저장합니다.
 
 ## 파라미터

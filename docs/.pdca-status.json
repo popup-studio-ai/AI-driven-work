@@ -1,0 +1,99 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2026-02-01T22:35:00+09:00",
+  "activeFeatures": [],
+  "primaryFeature": null,
+  "features": {
+    "weekly-report-refactoring": {
+      "phase": "completed",
+      "startedAt": "2026-02-01T21:30:00+09:00",
+      "updatedAt": "2026-02-01T22:35:00+09:00",
+      "completedAt": "2026-02-01T22:35:00+09:00",
+      "matchRate": 100,
+      "iterationCount": 1,
+      "documents": {
+        "design": "docs/02-design/features/weekly-report-refactoring.design.md",
+        "analysis": "docs/03-analysis/weekly-report-refactoring.analysis.md",
+        "report": "docs/04-report/features/weekly-report-refactoring.report.md"
+      },
+      "tasks": {
+        "total": 7,
+        "completed": 7
+      },
+      "implementedFiles": [
+        ".claude/skills/weekly-report.md",
+        ".claude/agents/jira-collector.md",
+        ".claude/templates/weekly-report.template.md",
+        ".claude/scripts/collect-jira-issues.py",
+        ".claude/commands/weekly-report.md"
+      ]
+    }
+  },
+  "pipeline": {
+    "currentPhase": 5,
+    "level": "Dynamic",
+    "phaseHistory": [
+      {
+        "phase": "design",
+        "feature": "weekly-report-refactoring",
+        "timestamp": "2026-02-01T21:30:00+09:00"
+      },
+      {
+        "phase": "do",
+        "feature": "weekly-report-refactoring",
+        "timestamp": "2026-02-01T22:00:00+09:00"
+      },
+      {
+        "phase": "check",
+        "feature": "weekly-report-refactoring",
+        "timestamp": "2026-02-01T22:20:00+09:00",
+        "matchRate": 94
+      },
+      {
+        "phase": "act",
+        "feature": "weekly-report-refactoring",
+        "timestamp": "2026-02-01T22:30:00+09:00",
+        "matchRate": 100
+      },
+      {
+        "phase": "report",
+        "feature": "weekly-report-refactoring",
+        "timestamp": "2026-02-01T22:35:00+09:00"
+      }
+    ]
+  },
+  "session": {
+    "startedAt": "2026-02-01T11:15:23.581Z",
+    "onboardingCompleted": true,
+    "lastActivity": "2026-02-01T22:35:00+09:00"
+  },
+  "history": [
+    {
+      "action": "design-created",
+      "feature": "weekly-report-refactoring",
+      "timestamp": "2026-02-01T21:30:00+09:00"
+    },
+    {
+      "action": "do-completed",
+      "feature": "weekly-report-refactoring",
+      "timestamp": "2026-02-01T22:00:00+09:00"
+    },
+    {
+      "action": "check-completed",
+      "feature": "weekly-report-refactoring",
+      "timestamp": "2026-02-01T22:20:00+09:00",
+      "matchRate": 94
+    },
+    {
+      "action": "iterate-completed",
+      "feature": "weekly-report-refactoring",
+      "timestamp": "2026-02-01T22:30:00+09:00",
+      "matchRate": 100
+    },
+    {
+      "action": "report-completed",
+      "feature": "weekly-report-refactoring",
+      "timestamp": "2026-02-01T22:35:00+09:00"
+    }
+  ]
+}
