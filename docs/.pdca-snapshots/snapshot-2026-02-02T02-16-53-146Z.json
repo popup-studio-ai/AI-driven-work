@@ -95,5 +95,7 @@
       "feature": "weekly-report-refactoring",
       "timestamp": "2026-02-01T22:35:00+09:00"
     }
-  ]
+  ],
+  "_snapshotTimestamp": "2026-02-02T02:16:53.147Z",
+  "_reason": "pre-compress"
 }
