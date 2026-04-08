@@ -124,48 +124,62 @@ confluence_search: space = "POPUPSTUDI" AND title = "{YYMMDD}"
 
 ### Step 3: Jira 데이터 수집 (병렬 Agent 호출)
 
-**IMPORTANT: Task tool을 사용하여 프로젝트별로 jira-collector Agent를 병렬 호출합니다.**
+**IMPORTANT: Agent tool을 사용하여 프로젝트별로 병렬 호출합니다.**
+
+> **🚨 subagent_type을 사용하지 마세요.** MCP 도구(claude.ai Atlassian)는 deferred tool이라
+> ToolSearch로 먼저 스키마를 로드해야 합니다. subagent_type: "jira-collector"는 ToolSearch가 없어서
+> MCP 도구를 실행할 수 없습니다. 반드시 general-purpose Agent(subagent_type 생략)를 사용하세요.
 
 #### 병렬 호출 방식
 
-**하나의 메시지에서 4개의 Task tool을 동시에 호출합니다:**
+**하나의 메시지에서 Agent tool을 동시에 호출합니다:**
 
 ```
 # 전체 프로젝트 조회 시 (파라미터 없음)
-Task tool 호출 1: { subagent_type: "jira-collector", project: "PS", ... }
-Task tool 호출 2: { subagent_type: "jira-collector", project: "BK", ... }
-Task tool 호출 3: { subagent_type: "jira-collector", project: "BKIT", ... }
-Task tool 호출 4: { subagent_type: "jira-collector", project: "BKAM", ... }
+Agent 호출 1: { description: "Jira PS 이슈 수집", prompt: "..." }
+Agent 호출 2: { description: "Jira BK 이슈 수집", prompt: "..." }
+Agent 호출 3: { description: "Jira BKIT 이슈 수집", prompt: "..." }
+Agent 호출 4: { description: "Jira BKAM 이슈 수집", prompt: "..." }
 
 # 특정 프로젝트만 조회 시 (예: /weekly-report BK)
-Task tool 호출 1: { subagent_type: "jira-collector", project: "BK", ... }
+Agent 호출 1: { description: "Jira BK 이슈 수집", prompt: "..." }
 ```
 
-#### 각 Agent 호출 형식
+#### 각 Agent 호출 형식 (prompt 내용)
 
 ```
-Task tool 호출:
-  subagent_type: "jira-collector"
+Agent tool 호출:
   description: "Jira {project} 프로젝트 이슈 수집"
+  run_in_background: true
   prompt: |
     주간 보고서를 위한 Jira 이슈를 수집해주세요.
 
+    ## Step 0: MCP 도구 로드 (필수!)
+    먼저 ToolSearch를 사용하여 MCP 도구 스키마를 로드하세요:
+    ToolSearch({ query: "select:mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql", max_results: 1 })
+
+    ## Step 1: JQL 쿼리 실행
+    로드된 mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql 도구를 사용하여 아래 쿼리를 실행하세요.
+    - cloudId: "popupstudio.atlassian.net"
+    - maxResults: 50
+    - fields: ["summary", "status", "issuetype", "priority", "updated", "resolutiondate", "duedate", "project", "assignee", "reporter", "parent", "description"]
+
     ## 수집 조건
     - 프로젝트: {project} (단일 프로젝트)
-    - 이번주 기간: {this_week_start} ~ {this_week_end}
+    - 이번주 기간: {this_week_start} ~ {this_week_end} (end_exclusive: {this_week_end + 1일})
     - 차주 기간: {next_week_start} ~ {next_week_end}
 
-    ## 수집 항목
-    1. 이번주 완료된 이슈 (status = 완료)
-    2. 이번주 업데이트된 이슈 (updated 기준)
-    3. 현재 진행 중인 이슈
-    4. 차주 예정 작업 (To Do, 해야 할 일)
+    ## JQL 쿼리 (3개 실행)
+    1. 이번주 업데이트: project = "{project}" AND updated >= "{this_week_start}" AND updated < "{this_week_end_exclusive}" ORDER BY updated DESC
+    2. 진행 중: project = "{project}" AND status in ("In Progress", "진행 중") ORDER BY priority DESC
+    3. 차주 예정: project = "{project}" AND (status in ("To Do", "Backlog", "Open", "해야 할 일") OR (dueDate >= "{next_week_start}" AND dueDate <= "{next_week_end}")) ORDER BY priority DESC
 
     ## 출력 형식
-    JSON 형식으로 팀원별 이슈 데이터를 반환해주세요.
+    팀원별로 분류하여 key, summary, status, assignee, issuetype, priority, updated를 포함한 JSON으로 반환하세요.
+    🚨 절대로 데이터를 추정하거나 생성하지 마세요. MCP 도구 호출 결과만 사용하세요.
 ```
 
-**Agent 정의**: `.claude/agents/jira-collector.md`
+**참고 문서**: `.claude/agents/jira-collector.md` (JQL 쿼리 상세, 출력 스키마)
 
 > **JQL 날짜 조건 주의사항:**
 > - `<= "2026-02-01"` → 2026-02-01 00:00:00까지만 포함 (오후 이슈 누락!)
