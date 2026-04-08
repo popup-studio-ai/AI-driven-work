@@ -96,8 +96,15 @@ skills:
 **단일 프로젝트**에서 주간 이슈 데이터를 수집하는 Agent입니다.
 병렬 실행을 위해 프로젝트별로 호출됩니다.
 
+> **🚨 호출 방식 주의:**
+> 이 Agent는 `subagent_type: "jira-collector"`로 호출하면 안 됩니다.
+> MCP 도구(claude.ai Atlassian)는 deferred tool이라 ToolSearch로 먼저 스키마를 로드해야 합니다.
+> **반드시 general-purpose Agent(subagent_type 생략)로 호출하고, prompt에 ToolSearch 단계를 포함하세요.**
+> 상세 호출 방법은 `.claude/skills/weekly-report/SKILL.md` Step 3을 참조하세요.
+
 ## 역할
 
+- ToolSearch로 MCP Atlassian 도구 로드
 - MCP를 통한 Jira 데이터 수집 (단일 프로젝트)
 - 팀원별 이슈 분류
 - 구조화된 JSON 데이터 반환
