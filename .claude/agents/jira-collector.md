@@ -15,9 +15,8 @@ parameters:
     required: true
     description: "단일 Jira 프로젝트 키 (PS, BK, BKIT, BKAM 중 하나)"
 tools:
-  - mcp__mcp-atlassian__jira_search
-  - mcp__mcp-atlassian__jira_get_issue
-  - mcp__mcp-atlassian__jira_get_project_issues
+  - mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql
+  - mcp__claude_ai_Atlassian__getJiraIssue
 config:
   projects:
     PS:
@@ -179,23 +178,28 @@ ORDER BY updated DESC
 
 ## MCP 호출 설정
 
-### jira_search 호출 시 필수 설정
+> **CRITICAL: 반드시 `mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql` 도구를 사용하세요.**
+> 다른 이름의 도구(mcp__jira__*, mcp__mcp-atlassian__* 등)는 존재하지 않습니다.
+> 존재하지 않는 도구를 호출하면 데이터가 날조됩니다. **절대 데이터를 추정하거나 생성하지 마세요.**
+
+### searchJiraIssuesUsingJql 호출 시 필수 설정
 
 ```json
 {
+  "cloudId": "popupstudio.atlassian.net",
   "jql": "{위 JQL 쿼리}",
-  "limit": 50,
-  "fields": "summary,status,issuetype,priority,updated,resolutiondate,duedate,project,assignee,reporter,parent,description"
+  "maxResults": 50,
+  "fields": ["summary", "status", "issuetype", "priority", "updated", "resolutiondate", "duedate", "project", "assignee", "reporter", "parent", "description"]
 }
 ```
 
-### 이슈 상세 조회 (필요시)
+### 이슈 상세 조회 (필요시) — getJiraIssue
 
 ```json
 {
-  "issue_key": "{이슈키}",
-  "fields": "summary,status,priority,assignee,reporter,created,updated,resolutiondate,duedate,description,issuetype,parent",
-  "expand": "changelog"
+  "cloudId": "popupstudio.atlassian.net",
+  "issueIdOrKey": "{이슈키}",
+  "fields": ["summary", "status", "priority", "assignee", "reporter", "created", "updated", "resolutiondate", "duedate", "description", "issuetype", "parent"]
 }
 ```
 
@@ -297,9 +301,11 @@ ORDER BY updated DESC
 
 ## 주의사항
 
-1. **limit: 50**: 모든 이슈를 포착하기 위해 충분한 limit 설정
+1. **maxResults: 50**: 모든 이슈를 포착하기 위해 충분한 limit 설정
 2. **단일 프로젝트 처리**: prompt에서 전달받은 project만 조회
 3. **병렬 실행**: Skill에서 4개 Agent를 병렬로 호출하여 속도 향상
 4. **updated 필드 중심**: dueDate가 없어도 updated로 이슈 포착
 5. **상태 변경 확인**: changelog로 상태 전환 이력 파악
-6. **실제 데이터만**: Jira에 없는 내용은 추정하지 않음
+6. **🚨 CRITICAL - 실제 데이터만**: Jira MCP 도구 호출 결과만 사용. 도구 호출이 실패하면 빈 결과를 반환. **절대로 이슈 데이터를 추정, 생성, 날조하지 않음**
+7. **🚨 도구명 확인**: 반드시 `mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql`를 사용. `mcp__jira__*` 또는 `mcp__mcp-atlassian__*`는 존재하지 않는 도구임
+8. **cloudId 필수**: 모든 Atlassian MCP 호출에 `cloudId: "popupstudio.atlassian.net"` 포함
