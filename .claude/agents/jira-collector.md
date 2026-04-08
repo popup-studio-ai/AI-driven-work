@@ -1,7 +1,7 @@
 ---
 name: jira-collector
 description: Jira 단일 프로젝트에서 주간 이슈 데이터를 수집하는 Agent (병렬 실행 지원)
-version: 2.0.0
+version: 2.1.0
 type: data-collector
 subagent_type: jira-collector
 invocation: |
@@ -109,33 +109,33 @@ skills:
 
 **prompt에서 전달받은 단일 프로젝트({project})에 대해** 각 팀원의 JQL 쿼리를 실행합니다.
 
-### Query 1: 이번 주 변경된 이슈 (담당자 기준)
+### Query 1: 이번주 변경된 이슈 (담당자 기준)
 
 ```jql
 project = "{project}"
 AND assignee = "{email}"
-AND updated >= "{period.last_week.start}"
-AND updated < "{period.last_week.end_exclusive}"
+AND updated >= "{period.this_week.start}"
+AND updated < "{period.this_week.end_exclusive}"
 ORDER BY updated DESC
 ```
 
 > **JQL 날짜 조건 주의:**
-> - `<= "2026-02-01"` → 2026-02-01 **00:00:00**까지만 포함 (오후 이슈 누락!)
-> - `< "2026-02-02"` → 2026-02-01 **23:59:59**까지 포함 (올바름)
-> - `period.last_week.end_exclusive` = last_week.end + 1일
+> - `<= "2026-04-10"` → 2026-04-10 **00:00:00**까지만 포함 (오후 이슈 누락!)
+> - `< "2026-04-11"` → 2026-04-10 **23:59:59**까지 포함 (올바름)
+> - `period.this_week.end_exclusive` = this_week.end + 1일
 
-**목적**: 해당 기간에 활동한 모든 이슈 파악 (상태/내용 변경 포함)
+**목적**: 이번주 활동한 모든 이슈 파악 (상태/내용 변경 포함)
 
-### Query 2: 이번 주 완료된 이슈
+### Query 2: 이번주 완료된 이슈
 
 ```jql
 project = "{project}"
 AND assignee = "{email}"
-AND status changed to Done during ("{period.last_week.start}", "{period.last_week.end}")
+AND status changed to Done during ("{period.this_week.start}", "{period.this_week.end}")
 ORDER BY resolutiondate DESC
 ```
 
-**목적**: 이번 주 Done으로 전환된 이슈만 추출
+**목적**: 이번주 Done으로 전환된 이슈만 추출
 
 ### Query 3: 현재 진행 중인 이슈
 
@@ -148,27 +148,27 @@ ORDER BY priority DESC, updated DESC
 
 **목적**: 아직 완료되지 않은 진행 중 작업
 
-### Query 4: 다음 주 예정 작업
+### Query 4: 차주 예정 작업
 
 ```jql
 project = "{project}"
 AND assignee = "{email}"
 AND (
   status in ("To Do", "Backlog", "Open", "해야 할 일")
-  OR (dueDate >= "{period.this_week.start}" AND dueDate <= "{period.this_week.end}")
+  OR (dueDate >= "{period.next_week.start}" AND dueDate <= "{period.next_week.end}")
 )
 ORDER BY priority DESC, dueDate ASC
 ```
 
-**목적**: To Do 상태이거나 다음 주 기한인 이슈
+**목적**: To Do 상태이거나 차주 기한인 이슈
 
 ### Query 5: 본인이 생성한 이슈 (reporter)
 
 ```jql
 project = "{project}"
 AND reporter = "{email}"
-AND updated >= "{period.last_week.start}"
-AND updated < "{period.last_week.end_exclusive}"
+AND updated >= "{period.this_week.start}"
+AND updated < "{period.this_week.end_exclusive}"
 AND assignee != "{email}"
 ORDER BY updated DESC
 ```
@@ -214,15 +214,15 @@ ORDER BY updated DESC
     "project": "BK"
   },
   "period": {
-    "last_week": {
-      "start": "2026-01-26",
-      "end": "2026-02-01",
-      "end_exclusive": "2026-02-02"
-    },
     "this_week": {
-      "start": "2026-02-02",
-      "end": "2026-02-08",
-      "end_exclusive": "2026-02-09"
+      "start": "2026-04-06",
+      "end": "2026-04-10",
+      "end_exclusive": "2026-04-11"
+    },
+    "next_week": {
+      "start": "2026-04-13",
+      "end": "2026-04-17",
+      "end_exclusive": "2026-04-18"
     }
   },
   "members": [

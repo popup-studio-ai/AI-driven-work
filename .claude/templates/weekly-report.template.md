@@ -25,7 +25,7 @@
 - **{{key}}: {{summary}}** - {{status}}
 {{/each}}
 
-**다음 주 예정 작업:**
+**차주 예정 작업:**
 
 {{#each planned_issues}}
 - **{{key}}: {{summary}}** (기한: {{due_date}})
@@ -37,7 +37,7 @@
 ---
 {{/each}}
 
-## 이번 주 전체 주요 진행 사항
+## 이번주 전체 주요 진행 사항
 
 ### 개발 (Backend)
 {{backend_summary}}
@@ -68,7 +68,7 @@
 
 ---
 
-## 다음 주 ({{next_period}}) 예상 작업
+## 차주 ({{next_period}}) 예정 작업
 
 {{#each projects_next_week}}
 ### {{project_name}} ({{project_key}})
